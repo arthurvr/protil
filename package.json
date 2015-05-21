@@ -4,7 +4,7 @@
   "description": "a utility library for working with promises",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/tape/bin/tape test/test.js && browserify test/test.js | testling",
+    "test": "node_modules/tape/bin/tape test/test.js",
     "lint": "eslint lib/*.js",
     "clean": "rm -rf build && mkdir -p build",
     "transpile": "babel --blacklist strict lib/protil.js --out-file build/protil.js --source-maps",

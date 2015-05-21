@@ -1,0 +1,45 @@
+{
+  "name": "protil",
+  "version": "0.1.0",
+  "description": "a utility library for working with promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/tape/bin/tape test/test.js && browserify test/test.js | testling",
+    "lint": "eslint lib/*.js",
+    "clean": "rm -rf build && mkdir -p build",
+    "transpile": "babel --blacklist strict lib/protil.js --out-file build/protil.js --source-maps",
+    "uglify": "uglifyjs build/protil.js --mangle -o build/protil.min.js",
+    "build": "npm run transpile && npm run uglify",
+    "prepublish": "npm run build",
+    "prebuild": "npm run clean",
+    "postbuild": "npm test",
+    "pretest": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/learn-javascript/protil.git"
+  },
+  "keywords": [
+    "promise",
+    "utility"
+  ],
+  "author": "#learnjavascript",
+  "contributors": [
+    {
+      "name": "Dane Grant",
+      "email": "danecando@gmail.com"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/learn-javascript/protil/issues"
+  },
+  "homepage": "https://github.com/learn-javascript/protil#readme",
+  "devDependencies": {
+    "babel": "^5.4.5",
+    "browserify": "^10.2.1",
+    "tape": "^4.0.0",
+    "testling": "^1.7.1",
+    "uglify-js": "^2.4.23"
+  }
+}

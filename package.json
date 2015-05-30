@@ -8,7 +8,7 @@
     "lint": "eslint lib/*.js",
     "clean": "rm -rf build && mkdir -p build",
     "transpile": "babel --blacklist strict lib/protil.js --out-file build/protil.js --source-maps",
-    "uglify": "uglifyjs build/protil.js --mangle -o build/protil.min.js",
+    "uglify": "node_modules/uglify-js/bin/uglifyjs build/protil.js --mangle -o build/protil.min.js",
     "build": "npm run transpile && npm run uglify",
     "prepublish": "npm run build",
     "prebuild": "npm run clean",
@@ -35,7 +35,6 @@
   },
   "homepage": "https://github.com/learn-javascript/protil#readme",
   "devDependencies": {
-    "babel": "^5.4.5",
     "babel-eslint": "^3.1.6",
     "browserify": "^10.2.1",
     "eslint": "^0.21.2",

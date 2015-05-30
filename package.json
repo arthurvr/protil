@@ -12,8 +12,7 @@
     "build": "npm run transpile && npm run uglify",
     "prepublish": "npm run build",
     "prebuild": "npm run clean",
-    "postbuild": "npm test",
-    "pretest": "npm run lint"
+    "postbuild": "npm test"
   },
   "repository": {
     "type": "git",
@@ -41,7 +40,6 @@
     "browserify": "^10.2.1",
     "eslint": "^0.21.2",
     "tape": "^4.0.0",
-    "testling": "^1.7.1",
     "uglify-js": "^2.4.23"
   }
 }

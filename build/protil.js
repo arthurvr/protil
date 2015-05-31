@@ -18,7 +18,8 @@
   'use strict';
 
   var protil = {};
-  var Promise = Promise;
+  console.log(Promise);
+  var Promise = global.Promise;
 
   var prevProtil = undefined;
   if (global.protil) prevProtil = global.protil;
@@ -29,9 +30,34 @@
     console.warn(warning);
   }
 
+  protil.setPromise = function (p) {
+    Promise = p;
+  };
+
   protil.noConflict = function noConflict() {
     global.protil = prevProtil;
     return this;
+  };
+
+  protil.always = function (fn) {
+    return function () {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      var res = fn.apply(null, args);
+      function handle(error, value) {
+        return {
+          value: value,
+          rejected: error
+        };
+      }
+
+      if (!res.then) {
+        return Promise.resolve(handle(false, res));
+      }
+      return res.then(handle.bind(null, false), handle.bind(null, true));
+    };
   };
 
   return protil;

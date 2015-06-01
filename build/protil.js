@@ -3,35 +3,36 @@
  * a utility library for working with promises
  */
 
-/*global define*/
-!(function (global, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define([], function () {
-      return factory(global);
-    });
-  } else if (typeof exports === 'object') {
+!(function (root, factory) {
+  if (typeof exports === 'object') {
     module.exports = factory(global);
+  } else if (root.window) {
+    root.protil = factory(root);
   } else {
-    global.protil = factory(global);
+    return;
   }
-})(this, function (global) {
+})(this, function (root) {
   'use strict';
 
   var protil = {};
-  var Promise = Promise;
+  var Promise = root.Promise;
 
-  var prevProtil = undefined;
-  if (global.protil) prevProtil = global.protil;
+  var prev = undefined;
+  if (root.protil) prev = root.protil;
+
+  protil.noConflict = function () {
+    global.protil = prev;
+    return this;
+  };
 
   // check for promise constructor
-  if (!Promise) {
+  if (!Promise || typeof Promise !== 'function') {
     var warning = 'Promise constructor not detected. ' + 'Please pass your promise implementation to the setPromise method.';
     console.warn(warning);
   }
 
-  protil.noConflict = function noConflict() {
-    global.protil = prevProtil;
-    return this;
+  protil.setPromise = function (p) {
+    Promise = p;
   };
 
   return protil;

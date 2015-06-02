@@ -30,6 +30,7 @@
         "quotes": [
             2, "single", "avoid-escape"    // http://eslint.org/docs/rules/quotes
         ],
+        "no-underscore-dangle": 0,
 
         /**
          * Variables

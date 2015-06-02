@@ -5,11 +5,11 @@
 
 !(function (root, factory) {
   if (typeof exports === 'object') {
+    var _Promise = _Promise || require('../lib/Promise');
+    global.Promise = _Promise;
     module.exports = factory(global);
   } else if (root.window) {
     root.protil = factory(root);
-  } else {
-    return;
   }
 })(this, function (root) {
   'use strict';
@@ -25,14 +25,47 @@
     return this;
   };
 
-  // check for promise constructor
-  if (!Promise || typeof Promise !== 'function') {
-    var warning = 'Promise constructor not detected. ' + 'Please pass your promise implementation to the setPromise method.';
-    console.warn(warning);
-  }
+  protil.setPromises = function (Pc) {
+    if (!this._checkPromises(Pc)) {
+      throw new Error('protil Promises must provide ES6 Promise Constructor');
+    } else {
+      Promise = Pc;
+    }
+  };
 
-  protil.setPromise = function (p) {
-    Promise = p;
+  //
+  //  Helpers
+  //
+
+  /**
+   * Check if promise follows A+ spec
+   * https://promisesaplus.com/
+   * @param p (promise)
+   * @returns {boolean}
+   */
+  protil.isValidPromise = function (p) {
+    return typeof p.then().then === 'function' && p.then() instanceof Object.getPrototypeOf(p).constructor;
+  };
+
+  /**
+   * Make sure Promise constructor is available
+   * @param Pc
+   * @returns {boolean}
+   * @private
+   */
+  protil._checkPromises = function (Pc) {
+    var Prom = Pc || Promise;
+    var p = undefined;
+
+    try {
+      p = new Prom(function (resolve, reject) {
+        return true ? resolve(true) : reject(false);
+      });
+    } catch (e) {
+      return false;
+    }
+
+    return this.isValidPromise(p);
   };
 
   return protil;
